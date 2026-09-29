@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Maaf 🌸</title>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#1d2540;--stem:#6fbf8e;--text:#fdf1f5;--pink:#f4a6c0;--core:#ffd96b}
+*{box-sizing:border-box;margin:0}
+html,body{height:100%}
+body{
+  background:radial-gradient(ellipse at 50% 110%,#37447a,var(--bg) 65%);
+  color:var(--text);font-family:'Caveat','Segoe Script',cursive;overflow:hidden;
+  padding-top:env(safe-area-inset-top);padding-bottom:env(safe-area-inset-bottom);
+}
+.layer{position:fixed;inset:0;pointer-events:none;overflow:hidden}
+
+.float{position:absolute;bottom:-12vh;color:var(--pink);opacity:0;animation:rise var(--t) var(--d) linear infinite}
+@keyframes rise{
+  10%{opacity:.35}
+  90%{opacity:.25}
+  100%{transform:translateY(-118vh) rotate(360deg);opacity:0}
+}
+.petal{
+  position:absolute;top:-6vh;width:var(--s);height:calc(var(--s) * 1.4);
+  background:var(--c);border-radius:80% 0 80% 0;opacity:.75;
+  animation:fall var(--t) var(--d) linear infinite;
+}
+@keyframes fall{
+  0%{transform:translate(0,0) rotate(0)}
+  50%{transform:translate(40px,55vh) rotate(180deg)}
+  100%{transform:translate(-30px,112vh) rotate(360deg)}
+}
+
+.flower{position:absolute;bottom:0;display:flex;flex-direction:column;align-items:center}
+.head{width:100%;transform:scale(0) rotate(-40deg);animation:bloom 1s var(--d) forwards cubic-bezier(.3,1.5,.5,1)}
+.stem{width:4px;height:var(--h);background:var(--stem);border-radius:2px;transform:scaleY(0);transform-origin:bottom;animation:grow 1.1s calc(var(--d) - .9s) forwards ease-out}
+@keyframes grow{to{transform:scaleY(1)}}
+@keyframes bloom{to{transform:scale(1) rotate(0)}}
+@keyframes pop{to{opacity:1;transform:none}}
+@keyframes bob{to{transform:translateY(-10px)}}
+@keyframes glow{to{text-shadow:0 0 34px #ff8fb5,0 0 6px #fff}}
+
+.slide{
+  position:absolute;inset:0;z-index:1;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;text-align:center;padding:24px;
+  opacity:0;transform:translateY(28px);pointer-events:none;
+  transition:opacity .7s,transform .7s;
+  text-shadow:0 2px 12px rgba(20,25,50,.85);
+}
+.slide.on{opacity:1;transform:none;pointer-events:auto}
+h2{font-size:clamp(2rem,7vw,3rem);line-height:1.15;margin-bottom:.5rem}
+p{font-size:clamp(1.4rem,4.4vw,1.8rem);line-height:1.35;font-weight:500;max-width:28rem}
+.big{font-size:clamp(4rem,22vw,9rem);font-weight:700;letter-spacing:.06em;line-height:1;color:#fff}
+.big span{
+  display:inline-block;opacity:0;transform:translateY(30px) scale(.7);
+  animation:pop .7s var(--dl) forwards,
+            bob 2.6s calc(var(--dl) + .7s) ease-in-out infinite alternate,
+            glow 2.2s calc(var(--dl) + .7s) ease-in-out infinite alternate;
+}
+.simbol{font-size:2.6rem;margin-bottom:.4rem;display:flex;gap:.7rem;color:var(--pink)}
+.simbol span{display:inline-block;animation:bob 2s ease-in-out infinite alternate;animation-delay:var(--dl)}
+.quote{margin-top:1.2rem;font-size:1.5rem;opacity:0;transition:opacity 1.2s}
+.quote.on{opacity:.9}
+
+.row{display:flex;gap:12px;margin-top:1.4rem;justify-content:center;flex-wrap:wrap}
+button,a.btn{
+  font:inherit;font-size:1.6rem;font-weight:700;color:#3a1830;background:var(--pink);
+  border:0;border-radius:999px;padding:.45rem 1.6rem;cursor:pointer;transition:transform .2s;
+  text-decoration:none;display:inline-block;
+}
+button.ghost{background:transparent;color:var(--text);border:2px solid var(--pink)}
+button:hover,a.btn:hover{transform:scale(1.06)}
+button:focus-visible,a.btn:focus-visible{outline:3px solid var(--core);outline-offset:3px}
+@media (prefers-reduced-motion:reduce){
+  .float,.petal{display:none}
+  .head,.stem,.big span,.simbol span{animation-duration:.01s;animation-delay:0s;animation-iteration-count:1}
+  .slide,.quote{transition:none}
+}
+</style>
+</head>
+<body>
+<div class="layer" id="melayang" aria-hidden="true"></div>
+<div class="layer" id="kelopak" aria-hidden="true"></div>
+<div class="layer" id="garden" aria-hidden="true"></div>
+
+<!-- 1: ucapan besar -->
+<section class="slide" id="s1">
+  <div class="big" id="judul" aria-label="Maaf"></div>
+  <h2 id="untuk"></h2>
+  <p id="kalimat1"></p>
+  <div class="row"><button data-go="s2">Lanjut</button></div>
+</section>
+
+<!-- 2: pesan dan janji -->
+<section class="slide" id="s2">
+  <div class="simbol" aria-hidden="true">
+    <span style="--dl:0s">✿</span><span style="--dl:.3s">❀</span><span style="--dl:.6s">❁</span><span style="--dl:.9s">✾</span><span style="--dl:1.2s">✿</span>
+  </div>
+  <h2 id="judul2"></h2>
+  <p id="kalimat2"></p>
+  <p class="quote" id="kutipan"></p>
+  <div class="row">
+    <button class="ghost" data-go="s1">Kembali</button>
+    <button data-go="s3">Lanjut</button>
+  </div>
+</section>
+
+<!-- 3: pilihan -->
+<section class="slide" id="s3">
+  <h2>Kamu maafin aku?</h2>
+  <p>Pilih sesuai perasaanmu. Aku terima apa pun jawabannya.</p>
+  <div class="row">
+    <button class="ghost" data-go="s5">Belum</button>
+    <a class="btn" id="maafkan" target="_blank" rel="noopener">Maafkan 🌸</a>
+  </div>
+</section>
+
+<!-- 4: kalau memaafkan -->
+<section class="slide" id="s4">
+  <h2>Makasih ya 🌷</h2>
+  <p>Tinggal tekan kirim di WhatsApp, ya. Kalau belum terbuka, tekan tombol di bawah.</p>
+  <div class="row"><a class="btn" id="maafkan2" target="_blank" rel="noopener">Buka WhatsApp</a></div>
+</section>
+
+<!-- 5: kalau belum -->
+<section class="slide" id="s5">
+  <h2>Nggak apa-apa</h2>
+  <p>Aku ngerti. Aku kasih kamu waktu dan nggak akan ganggu. Kalau nanti kamu berubah pikiran, halaman ini masih ada.</p>
+  <div class="row"><button class="ghost" data-go="s3">Kembali ke pilihan</button></div>
+</section>
+
+<script>
+// ✏️ UBAH BAGIAN INI
+const PENERIMA = "icin";
+const PENGIRIM = "idris";
+const NOMOR_WA = "6289671111705"; // nomor WhatsAppmu: pakai 62, tanpa + dan tanpa 0 di depan
+const PESAN_WA = "Aku maafin kamu 🌸";
+const KALIMAT_1 = "Gara-gara salah kataku tadi, aku nggak akan chat kamu seminggu ini, kecuali kamu maafin aku.";
+const JUDUL_2 = "Aku mau memperbaikinya";
+const KALIMAT_2 = "Aku sadar kata-kataku tadi salah dan bikin kamu nggak nyaman. Aku janji lebih hati-hati dan lebih menghargai kamu mulai sekarang.";
+const KUTIPAN = "Kesalahan tidak bisa dihapus, tapi bisa diperbaiki mulai hari ini.";
+const WARNA = ["#f4a6c0", "#ffc2d4", "#c9a7ff", "#ffb38a", "#fff0f5"];
+
+const $ = id => document.getElementById(id);
+const acak = (a, b) => a + Math.random() * (b - a);
+
+$("untuk").textContent = "untuk " + PENERIMA;
+$("judul2").textContent = JUDUL_2;
+$("kutipan").textContent = KUTIPAN + " — " + PENGIRIM;
+
+// tautan WhatsApp (terbuka dengan pesan siap kirim)
+const LINK_WA = "https://wa.me/" + NOMOR_WA + "?text=" + encodeURIComponent(PESAN_WA);
+$("maafkan").href = LINK_WA;
+$("maafkan2").href = LINK_WA;
+$("maafkan").addEventListener("click", () => setTimeout(() => show("s4"), 600));
+
+// ---- efek ketik ----
+function ketik(el, teks, selesai) {
+  clearInterval(el._t);
+  el.textContent = "";
+  const hs = [...teks].map(c => {
+    const s = document.createElement("span");
+    s.textContent = c; s.style.opacity = 0; el.appendChild(s);
+    return s;
+  });
+  let i = 0;
+  el._t = setInterval(() => {
+    if (i >= hs.length) { clearInterval(el._t); selesai && selesai(); return; }
+    hs[i++].style.opacity = 1;
+  }, 30);
+}
+
+// ---- navigasi layar ----
+let tunda;
+function show(id) {
+  clearTimeout(tunda);
+  document.querySelectorAll(".slide").forEach(s => s.classList.toggle("on", s.id === id));
+  $("kutipan").classList.remove("on");
+  if (id === "s1") {
+    $("judul").innerHTML = [..."MAAF"].map((h, i) => `<span style="--dl:${0.18 * i}s">${h}</span>`).join("");
+    $("kalimat1").textContent = "";
+    tanam();
+    tunda = setTimeout(() => ketik($("kalimat1"), KALIMAT_1), 1000);
+  }
+  if (id === "s2") {
+    $("kalimat2").textContent = "";
+    tunda = setTimeout(() => ketik($("kalimat2"), KALIMAT_2, () => $("kutipan").classList.add("on")), 700);
+  }
+}
+document.querySelectorAll("[data-go]").forEach(b => b.addEventListener("click", () => show(b.dataset.go)));
+
+// ---- simbol melayang + kelopak jatuh ----
+const SIMBOL = ["✿", "❀", "❁", "✾", "🌸", "🌷", "♡"];
+for (let i = 0; i < 14; i++) {
+  const e = document.createElement("span");
+  e.className = "float";
+  e.textContent = SIMBOL[i % SIMBOL.length];
+  e.style.left = acak(2, 96) + "%";
+  e.style.fontSize = acak(1.2, 2.6) + "rem";
+  e.style.setProperty("--t", acak(14, 26) + "s");
+  e.style.setProperty("--d", -acak(0, 20) + "s");
+  $("melayang").appendChild(e);
+}
+for (let i = 0; i < 20; i++) {
+  const e = document.createElement("div");
+  e.className = "petal";
+  e.style.left = acak(0, 100) + "%";
+  e.style.setProperty("--s", acak(8, 15) + "px");
+  e.style.setProperty("--c", WARNA[i % WARNA.length]);
+  e.style.setProperty("--t", acak(9, 16) + "s");
+  e.style.setProperty("--d", -acak(0, 14) + "s");
+  $("kelopak").appendChild(e);
+}
+
+// ---- bunga mekar ----
+function bungaSVG(warna) {
+  let k = "";
+  for (let i = 0; i < 8; i++) k += `<ellipse cx="0" cy="-24" rx="13" ry="24" fill="${warna}" transform="rotate(${i * 45})"/>`;
+  return `<svg class="head" viewBox="-50 -50 100 100">${k}<circle r="13" fill="#ffd96b"/></svg>`;
+}
+let sudahTanam = false;
+function tanam() {
+  if (sudahTanam) return;
+  sudahTanam = true;
+  const total = window.innerWidth < 600 ? 9 : 16;
+  for (let i = 0; i < total; i++) {
+    const f = document.createElement("div");
+    f.className = "flower";
+    const w = acak(50, 90);
+    f.style.width = w + "px";
+    f.style.left = ((i + 0.5) / total) * 100 + acak(-2, 2) + "%";
+    f.style.marginLeft = -w / 2 + "px";
+    f.style.setProperty("--h", acak(12, 40) + "vh");
+    f.style.setProperty("--d", acak(0.9, 2.5) + "s");
+    f.innerHTML = bungaSVG(WARNA[Math.floor(Math.random() * WARNA.length)]) + '<div class="stem"></div>';
+    $("garden").appendChild(f);
+  }
+}
+
+show("s1");
+</script>
+</body>
+</html>
